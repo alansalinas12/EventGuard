@@ -43,12 +43,5 @@ $(document).ready(function () {
         googleSignout();
     });
 
-if (user) {
-    var uid = firebase.auth().currentUser.uid;
-    database.ref().child('users/').child(uid).update({
-        name: user.desplayName,
-        email: user.email
-    });
-}
 
 });
