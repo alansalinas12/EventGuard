@@ -1,25 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendar</title>
+    <link rel='stylesheet' href='assets/javascript/fullcalendar.css'/>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.structure.css">
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.css">
+    <script src='assets/javascript/lib/jquery.min.js'></script>
+    <script src='jquery-ui/jquery-ui.js'></script>
+    <script src='assets/javascript/lib/moment.min.js'></script>
+    <script src='assets/javascript/fullcalendar.js'></script>
+    <script type='text/javascript' src='assets/javascript/gcal.js'></script>
 
-<head>
-  <title>EventGuard</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
-</head>
+    
+    <script type='text/javascript'>
 
-<body>
+      $(function() {
+        $('#calendar').fullCalendar({
+          googleCalendarApiKey: 'AIzaSyDZ1Delt0bzqoWtG9r2onVIusMBq2y5Y7A',
+          events: {
+            googleCalendarId: 'h7a9fmoi8kipk5bu1hsrjfsg0k@group.calendar.google.com',
+            className: 'gcal-event' // an option!
+          },
+          header: {
+            left: 'prev,next today myCustomButton',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+          },
+          defaultView: 'agendaWeek',
+          String, default: 'jquery-ui'
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+        });
+      });
+      
+      </script>
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+          <h1 class="display-4">Calendar</h1>
+      </div>
+      </div>
+<div class="container">
+  <div class="row">
+      <div class="col-sm">
+        <div id="calendar"></div>
+      </div>
+      <div class="col-sm dailyevents">
+      Daily Events
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-sm weather">
+          Weather
+      </div>
+      <div class="col-sm weekly events">
+          Weekly Events
+      </div>
+      </div>
+  </div>
+  </body>
+</html>
+
+h7a9fmoi8kipk5bu1hsrjfsg0k@group.calendar.google.com //calendar id
