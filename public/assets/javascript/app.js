@@ -1,47 +1,38 @@
 $(document).ready(function () {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    var database = firebase.database();
+    database = firebase.database();
 
-    firebase.auth().onAuthStateChanged(function(user) {
-        window.user = user;
-        console.log(user);
-    });
-
-    function googleSignin() {
-        firebase.auth()
-        .signInWithRedirect(provider)
-        .then(function(result){
-            var token = reult.credential.accessToken;
-            var user = result.user;
-
-            console.log(token);
-            console.log(user);
-            }).catch (function(error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-
-                console.log(error.code)
-                console.log(error.message)
-            });
-    }
-    //sign in button id
-    $("#signIn").on("click", function () {
-        googleSignin();
-    });
-
-    function googleSignout() {
-        firebase.auth().signOut()
-
-            .then(function () {
-                console.log('Signout Success')
-            }, function (error) {
-                console.log('Signout Failed')
-            });
-    }
-    //sign out button id
-    $("#signOut").on("click", function () {
-        googleSignout();
-    });
-
-
-});
+    $('#populate').on("click", function listUpcomingEvents() {
+        gapi.client.calendar.events.list({
+            'calendarId': 'primary',
+            'timeMin': (new Date()).toISOString(),
+            'showDeleted': false,
+            'singleEvents': true,
+            'maxResults': 10,
+            'orderBy': 'startTime'
+        }).then(function (response) {
+            var events = response.result.items;
+            console.log(events);
+            if (events.length > 0) {
+                for (i = 0; i < events.length; i++) {
+                    var event = events[i];
+                    eventId = event.id;
+                    /**Taking the ISO 8601 format provided by the calendar API and converting to UNIX for use with weather API */
+                    var normalStart = event.start.dateTime;
+                    var normalEnd = event.end.dateTime;
+                    var eventStartUnix = moment(normalStart).format('x');
+                    var eventEndUnix = moment(normalEnd).format('x');
+                    database.ref('Users/' + auth + '/events/' + eventId).set({
+                        event: event,
+                        start: eventStartUnix,
+                        end: eventEndUnix,
+                        location: event.location,
+                        summary: event.summary,
+                        lat: 0,
+                        lng: 0
+                    })
+                };
+            } else {
+                appendPre('No upcoming events found.');
+            }
+        });
+    })});

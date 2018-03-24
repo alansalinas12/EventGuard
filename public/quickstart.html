@@ -7,8 +7,9 @@
 </head>
 
 <body>
+    
     <p>Google Calendar API Quickstart</p>
-
+    <a href="index.html">Click here to go back</a>
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize-button" style="display: none;">Authorize</button>
     <button id="signout-button" style="display: none;">Sign Out</button>
@@ -66,7 +67,7 @@
             if (isSignedIn) {
                 authorizeButton.style.display = 'none';
                 signoutButton.style.display = 'block';
-                listUpcomingEvents();
+                redirect();
             } else {
                 authorizeButton.style.display = 'block';
                 signoutButton.style.display = 'none';
@@ -86,64 +87,7 @@
         function handleSignoutClick(event) {
             gapi.auth2.getAuthInstance().signOut();
         }
-
-        /**
-         * Append a pre element to the body containing the given message
-         * as its text node. Used to display the results of the API call.
-         *
-         * @param {string} message Text to be placed in pre element.
-         */
-        function appendPre(message) {
-            var pre = document.getElementById('content');
-            var textContent = document.createTextNode(message + '\n');
-            pre.appendChild(textContent);
-        }
-
-        /**
-         * Print the summary and start datetime/date of the next ten events in
-         * the authorized user's calendar. If no events are found an
-         * appropriate message is printed.
-         */
-        function listUpcomingEvents() {
-            gapi.client.calendar.events.list({
-                'calendarId': 'primary',
-                'timeMin': (new Date()).toISOString(),
-                'showDeleted': false,
-                'singleEvents': true,
-                'maxResults': 10,
-                'orderBy': 'startTime'
-            }).then(function (response) {
-                var events = response.result.items;
-                appendPre('Upcoming events:');
-
-                if (events.length > 0) {
-                    for (i = 0; i < events.length; i++) {
-                        var event = events[i];
-                        eventId = event.id;
-                        /**Taking the ISO 8601 format provided by the calendar API and converting to UNIX for use with weather API */
-                        var normalStart = event.start.dateTime;
-                        var normalEnd = event.end.dateTime;
-
-                        var eventStartUnix = moment(normalStart).format('x');
-                        var eventEndUnix = moment(normalEnd).format('x');
-
-
-                        database.ref('Users/' + auth + '/events/' + eventId).set({
-                            event: event,
-                            start: eventStartUnix,
-                            end: eventEndUnix,
-                            location: event.location,
-                            summary: event.summary,
-                            lat: 0,
-                            lng: 0
-                        })
-                    };
-                } else {
-                    appendPre('No upcoming events found.');
-                }
-            });
-        }
-
+        
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
